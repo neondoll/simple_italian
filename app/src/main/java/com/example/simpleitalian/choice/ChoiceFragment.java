@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+
 import com.example.simpleitalian.R;
 import com.example.simpleitalian.Word;
 import com.example.simpleitalian.databinding.FragmentChoiceBinding;
@@ -21,7 +22,7 @@ import com.example.simpleitalian.databinding.FragmentChoiceBinding;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ChoiceFragment extends Fragment {
+public class ChoiceFragment extends Fragment implements View.OnClickListener {
     private ArrayList<Word> list;
     private Button buttonAnswer1, buttonAnswer2, buttonAnswer3;
     private ChoiceViewModel choiceViewModel;
@@ -75,69 +76,9 @@ public class ChoiceFragment extends Fragment {
         textRussian = binding.textRussian;
         textRussian.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeText);
 
-        buttonAnswer1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (correctAnswer) {
-                    case 0:
-                        list.get(item).setKnown(true);
-                        buttonAnswer1.setBackgroundColor(Color.GREEN);
-                        break;
-                    case 1:
-                        list.get(item).setKnown(false);
-                        buttonAnswer1.setBackgroundColor(Color.RED);
-                        buttonAnswer2.setBackgroundColor(Color.GREEN);
-                        break;
-                    case 2:
-                        list.get(item).setKnown(false);
-                        buttonAnswer1.setBackgroundColor(Color.RED);
-                        buttonAnswer3.setBackgroundColor(Color.GREEN);
-                        break;
-                }
-            }
-        });
-        buttonAnswer2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (correctAnswer) {
-                    case 0:
-                        list.get(item).setKnown(false);
-                        buttonAnswer1.setBackgroundColor(Color.GREEN);
-                        buttonAnswer2.setBackgroundColor(Color.RED);
-                        break;
-                    case 1:
-                        list.get(item).setKnown(true);
-                        buttonAnswer2.setBackgroundColor(Color.GREEN);
-                        break;
-                    case 2:
-                        list.get(item).setKnown(false);
-                        buttonAnswer2.setBackgroundColor(Color.RED);
-                        buttonAnswer3.setBackgroundColor(Color.GREEN);
-                        break;
-                }
-            }
-        });
-        buttonAnswer3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (correctAnswer) {
-                    case 0:
-                        list.get(item).setKnown(false);
-                        buttonAnswer1.setBackgroundColor(Color.GREEN);
-                        buttonAnswer3.setBackgroundColor(Color.RED);
-                        break;
-                    case 1:
-                        list.get(item).setKnown(false);
-                        buttonAnswer2.setBackgroundColor(Color.GREEN);
-                        buttonAnswer3.setBackgroundColor(Color.RED);
-                        break;
-                    case 2:
-                        list.get(item).setKnown(true);
-                        buttonAnswer3.setBackgroundColor(Color.GREEN);
-                        break;
-                }
-            }
-        });
+        buttonAnswer1.setOnClickListener(this);
+        buttonAnswer2.setOnClickListener(this);
+        buttonAnswer3.setOnClickListener(this);
 
         getViewWord(item);
 
@@ -187,10 +128,75 @@ public class ChoiceFragment extends Fragment {
                 buttonAnswer2.setText(list.get(k).getItalian());
                 break;
         }
+        buttonAnswer1.setEnabled(true);
+        buttonAnswer2.setEnabled(true);
+        buttonAnswer3.setEnabled(true);
         if (list.get(i).getImage() == 0) image.setVisibility(View.GONE);
         else {
             image.setImageResource(list.get(i).getImage());
             image.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonAnswer1:
+                switch (correctAnswer) {
+                    case 0:
+                        list.get(item).setKnown(true);
+                        buttonAnswer1.setBackgroundColor(Color.GREEN);
+                        break;
+                    case 1:
+                        list.get(item).setKnown(false);
+                        buttonAnswer1.setBackgroundColor(Color.RED);
+                        buttonAnswer2.setBackgroundColor(Color.GREEN);
+                        break;
+                    case 2:
+                        list.get(item).setKnown(false);
+                        buttonAnswer1.setBackgroundColor(Color.RED);
+                        buttonAnswer3.setBackgroundColor(Color.GREEN);
+                        break;
+                }
+                break;
+            case R.id.buttonAnswer2:
+                switch (correctAnswer) {
+                    case 0:
+                        list.get(item).setKnown(false);
+                        buttonAnswer1.setBackgroundColor(Color.GREEN);
+                        buttonAnswer2.setBackgroundColor(Color.RED);
+                        break;
+                    case 1:
+                        list.get(item).setKnown(true);
+                        buttonAnswer2.setBackgroundColor(Color.GREEN);
+                        break;
+                    case 2:
+                        list.get(item).setKnown(false);
+                        buttonAnswer2.setBackgroundColor(Color.RED);
+                        buttonAnswer3.setBackgroundColor(Color.GREEN);
+                        break;
+                }
+            case R.id.buttonAnswer3:
+                switch (correctAnswer) {
+                    case 0:
+                        list.get(item).setKnown(false);
+                        buttonAnswer1.setBackgroundColor(Color.GREEN);
+                        buttonAnswer3.setBackgroundColor(Color.RED);
+                        break;
+                    case 1:
+                        list.get(item).setKnown(false);
+                        buttonAnswer2.setBackgroundColor(Color.GREEN);
+                        buttonAnswer3.setBackgroundColor(Color.RED);
+                        break;
+                    case 2:
+                        list.get(item).setKnown(true);
+                        buttonAnswer3.setBackgroundColor(Color.GREEN);
+                        break;
+                }
+                break;
+        }
+        buttonAnswer1.setEnabled(false);
+        buttonAnswer2.setEnabled(false);
+        buttonAnswer3.setEnabled(false);
     }
 }

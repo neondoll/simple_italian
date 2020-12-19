@@ -20,17 +20,22 @@ import com.example.simpleitalian.databinding.FragmentLearnWordBinding;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class LearnWordFragment extends Fragment {
+public class LearnWordFragment extends Fragment implements View.OnClickListener {
     private ArrayList<Word> list;
     private Button buttonKnow, buttonNoKnow, buttonSpeaker;
     private FragmentLearnWordBinding binding;
     private LearnWordViewModel learnWordViewModel;
     private ImageView image;
     private TextView textItalian, textTranscription, textRussian;
-    private int item, sizeText = 24;
+    private int item, sizeText = 24, unit = TypedValue.COMPLEX_UNIT_SP;
+    private Word currentWord;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentLearnWordBinding.inflate(inflater, container, false);
+        learnWordViewModel = new ViewModelProvider(this).get(LearnWordViewModel.class);
+
         list = new ArrayList<>();
+        list.add(new Word(0, "", "", "", "", 0));
         //list.add(new Word(1, "l'uomo", "[л уОмо]", "мужчина", "", ""));
         //list.add(new Word(2, "la donna", "[ла дОнна]", "женщина", "", ""));
         //list.add(new Word(3, "il ragazzo", "[иль рагАццо]", "мальчик", "", ""));
@@ -57,11 +62,9 @@ public class LearnWordFragment extends Fragment {
         list.add(new Word(24, "il cugino", "[иль куджИно]", "двоюродный брат", "", ""));
         list.add(new Word(25, "la сugina", "[ла куджИна]", "двоюродная сестра", "", ""));*/
 
-        item = getRandInt(list.size());
+        item = getRandInt(list.size() - 1) + 1;
+        currentWord = list.get(item);
 
-        learnWordViewModel = new ViewModelProvider(this).get(LearnWordViewModel.class);
-
-        binding = FragmentLearnWordBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         buttonKnow = binding.buttonKnow;
@@ -69,30 +72,16 @@ public class LearnWordFragment extends Fragment {
         buttonSpeaker = binding.buttonSpeaker;
         image = binding.imageView;
         textItalian = binding.textItalian;
-        textItalian.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeText);
+        textItalian.setTextSize(unit, sizeText);
         textRussian = binding.textRussian;
-        textRussian.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeText);
+        textRussian.setTextSize(unit, sizeText);
         textTranscription = binding.textTranscription;
-        textTranscription.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeText);
+        textTranscription.setTextSize(unit, sizeText);
 
-        buttonKnow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                list.get(item).setKnown(true);
-                item = getRandInt(list.size());
-                getViewWord(item);
-            }
-        });
-        buttonNoKnow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                list.get(item).setKnown(false);
-                item = getRandInt(list.size());
-                getViewWord(item);
-            }
-        });
+        buttonKnow.setOnClickListener(this);
+        buttonNoKnow.setOnClickListener(this);
 
-        getViewWord(item);
+        getViewWord();
 
         return root;
     }
@@ -105,19 +94,40 @@ public class LearnWordFragment extends Fragment {
 
     private int getRandInt(int max) {
         Random rand = new Random();
-        return rand.nextInt(max);
+        return max > 0 ? rand.nextInt(max) : -1;
     }
 
-    private void getViewWord(int i) {
-        textItalian.setText(list.get(i).getItalian());
-        textTranscription.setText(list.get(i).getTranscription());
-        textRussian.setText(list.get(i).getRussian());
-        if (list.get(i).getSpeech().equals("")) buttonSpeaker.setVisibility(View.GONE);
+    private void getViewWord() {
+        textItalian.setText(currentWord.getItalian());
+        textTranscription.setText(currentWord.getTranscription());
+        textRussian.setText(currentWord.getRussian());
+        if (currentWord.getSpeech().equals("")) buttonSpeaker.setVisibility(View.GONE);
         else buttonSpeaker.setVisibility(View.VISIBLE);
-        if (list.get(i).getImage() == 0) image.setVisibility(View.GONE);
+        if (currentWord.getImage() == 0) image.setVisibility(View.GONE);
         else {
-            image.setImageResource(list.get(i).getImage());
+            image.setImageResource(currentWord.getImage());
             image.setVisibility(View.VISIBLE);
         }
+        if (item == 0) {
+            buttonKnow.setVisibility(View.GONE);
+            buttonNoKnow.setVisibility(View.GONE);
+            binding.textFinal.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_know:
+                list.get(item).setKnown(true);
+                list.remove(item);
+                break;
+            case R.id.button_no_know:
+                list.get(item).setKnown(false);
+                break;
+        }
+        item = getRandInt(list.size() - 1) + 1;
+        currentWord = list.get(item);
+        getViewWord();
     }
 }
