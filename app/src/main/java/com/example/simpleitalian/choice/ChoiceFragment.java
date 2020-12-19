@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -23,63 +25,117 @@ import java.util.Random;
 
 public class ChoiceFragment extends Fragment implements View.OnClickListener {
     private ArrayList<Word> list;
-    private Button buttonAnswer1, buttonAnswer2, buttonAnswer3;
+    private Button buttonAnswer1;
+    private Button buttonAnswer2;
+    private Button buttonAnswer3;
+    private Button buttonContinue;
     private ChoiceViewModel choiceViewModel;
+    private ConstraintLayout layoutProcess;
     private FragmentChoiceBinding binding;
     private ImageView image;
+    private LinearLayout layoutStart;
+    private TextView textCount;
     private TextView textRussian;
-    private int item, correctAnswer, sizeText = 24;
+    private int correctAnswer;
+    private int countCorrectAnswers;
+    private int item;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentChoiceBinding.inflate(inflater, container, false);
+
         choiceViewModel = new ViewModelProvider(this).get(ChoiceViewModel.class);
-
-        correctAnswer = getRandInt(3);
-        System.out.println(correctAnswer);
-
-        list = new ArrayList<>();
-        //list.add(new Word(1, "l'uomo", "[л уОмо]", "мужчина", "", ""));
-        //list.add(new Word(2, "la donna", "[ла дОнна]", "женщина", "", ""));
-        //list.add(new Word(3, "il ragazzo", "[иль рагАццо]", "мальчик", "", ""));
-        //list.add(new Word(4, "la ragazzo", "[ла рагАцца]", "девочка", "", ""));
-        //list.add(new Word(5, "l'amico", "[л амИко]", "друг", "", ""));
-        list.add(new Word(6, "la famiglia", "[ла фамИлья]", "семья", "", R.drawable.image1));
-        //list.add(new Word(7, "i genitori", "[и дженитОри]", "родители", "", ""));
-        //list.add(new Word(8, "il bambino", "[иль бамибИно]", "ребёнок", "", ""));
-        //list.add(new Word(9, "il bimbo", "[иль бИмбо]", "малыш", "", ""));
-        list.add(new Word(10, "il papà", "[иль папА]", "папа", "", R.drawable.image4));
-        list.add(new Word(11, "la mamma", "[ла маммА]", "мама", "", R.drawable.image5));
-        list.add(new Word(12, "il fratello", "[иль фратЕлло]", "брат", "", R.drawable.image2));
-        list.add(new Word(13, "la sorella", "[ла сорЕлла]", "сестра", "", R.drawable.image3));
-        /*list.add(new Word(14, "il figlio", "[иль фИльо]", "сын", "", ""));
-        list.add(new Word(15, "la figlia", "[ла фИлья]", "дочь", "", ""));
-        list.add(new Word(16, "la nonna", "[ла нОнна]", "бабушка", "", ""));
-        list.add(new Word(17, "il nonno", "[иль нОнно]", "дедушка", "", ""));
-        list.add(new Word(18, "lo zio", "[ло дзИо]", "дядя", "", ""));
-        list.add(new Word(19, "la zia", "[ла дзИа]", "тётя", "", ""));
-        list.add(new Word(20, "la moglie", "[ла мОльэ]", "жена", "", ""));
-        list.add(new Word(21, "il marito", "[иль марИто]", "муж", "", ""));
-        list.add(new Word(22, "il nipote", "[иль нипОтэ]", "внук, племянник", "", ""));
-        list.add(new Word(23, "la nipote", "[ла нипОтэ]", "внучка, племянник", "", ""));
-        list.add(new Word(24, "il cugino", "[иль куджИно]", "двоюродный брат", "", ""));
-        list.add(new Word(25, "la сugina", "[ла куджИна]", "двоюродная сестра", "", ""));*/
-
-        item = getRandInt(list.size());
 
         View root = binding.getRoot();
 
-        buttonAnswer1 = binding.buttonAnswer1;
-        buttonAnswer2 = binding.buttonAnswer2;
-        buttonAnswer3 = binding.buttonAnswer3;
-        image = binding.imageView;
-        textRussian = binding.textRussian;
-        textRussian.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeText);
+        layoutStart = binding.layoutStart;
 
+        layoutProcess = binding.layoutProcess;
+
+        buttonAnswer1 = binding.buttonAnswer1;
+        buttonAnswer1.setBackgroundColor(Color.MAGENTA);
         buttonAnswer1.setOnClickListener(this);
+
+        buttonAnswer2 = binding.buttonAnswer2;
+        buttonAnswer2.setBackgroundColor(Color.MAGENTA);
         buttonAnswer2.setOnClickListener(this);
+
+        buttonAnswer3 = binding.buttonAnswer3;
+        buttonAnswer3.setBackgroundColor(Color.MAGENTA);
         buttonAnswer3.setOnClickListener(this);
 
-        getViewWord(item);
+        buttonContinue = binding.buttonContinue;
+        buttonContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                correctAnswer = getRandInt(3);
+                System.out.println(correctAnswer);
+
+                item = getRandInt(list.size());
+
+                getViewWord(item);
+
+                buttonAnswer1.setBackgroundColor(Color.MAGENTA);
+                buttonAnswer2.setBackgroundColor(Color.MAGENTA);
+                buttonAnswer3.setBackgroundColor(Color.MAGENTA);
+
+                buttonContinue.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        Button buttonStart = binding.buttonStart;
+        buttonStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list = new ArrayList<>();
+                //list.add(new Word(1, "l'uomo", "[л уОмо]", "мужчина", "", ""));
+                //list.add(new Word(2, "la donna", "[ла дОнна]", "женщина", "", ""));
+                //list.add(new Word(3, "il ragazzo", "[иль рагАццо]", "мальчик", "", ""));
+                //list.add(new Word(4, "la ragazzo", "[ла рагАцца]", "девочка", "", ""));
+                //list.add(new Word(5, "l'amico", "[л амИко]", "друг", "", ""));
+                list.add(new Word(6, "la famiglia", "[ла фамИлья]", "семья", "", R.drawable.image1));
+                //list.add(new Word(7, "i genitori", "[и дженитОри]", "родители", "", ""));
+                //list.add(new Word(8, "il bambino", "[иль бамибИно]", "ребёнок", "", ""));
+                //list.add(new Word(9, "il bimbo", "[иль бИмбо]", "малыш", "", ""));
+                list.add(new Word(10, "il papà", "[иль папА]", "папа", "", R.drawable.image4));
+                list.add(new Word(11, "la mamma", "[ла маммА]", "мама", "", R.drawable.image5));
+                list.add(new Word(12, "il fratello", "[иль фратЕлло]", "брат", "", R.drawable.image2));
+                list.add(new Word(13, "la sorella", "[ла сорЕлла]", "сестра", "", R.drawable.image3));
+                /*list.add(new Word(14, "il figlio", "[иль фИльо]", "сын", "", ""));
+                list.add(new Word(15, "la figlia", "[ла фИлья]", "дочь", "", ""));
+                list.add(new Word(16, "la nonna", "[ла нОнна]", "бабушка", "", ""));
+                list.add(new Word(17, "il nonno", "[иль нОнно]", "дедушка", "", ""));
+                list.add(new Word(18, "lo zio", "[ло дзИо]", "дядя", "", ""));
+                list.add(new Word(19, "la zia", "[ла дзИа]", "тётя", "", ""));
+                list.add(new Word(20, "la moglie", "[ла мОльэ]", "жена", "", ""));
+                list.add(new Word(21, "il marito", "[иль марИто]", "муж", "", ""));
+                list.add(new Word(22, "il nipote", "[иль нипОтэ]", "внук, племянник", "", ""));
+                list.add(new Word(23, "la nipote", "[ла нипОтэ]", "внучка, племянник", "", ""));
+                list.add(new Word(24, "il cugino", "[иль куджИно]", "двоюродный брат", "", ""));
+                list.add(new Word(25, "la сugina", "[ла куджИна]", "двоюродная сестра", "", ""));*/
+
+                countCorrectAnswers = 0;
+
+                correctAnswer = getRandInt(3);
+                System.out.println(correctAnswer);
+
+                item = getRandInt(list.size());
+
+                getViewWord(item);
+
+                textCount.setText("Количество правильных ответов: " + countCorrectAnswers);
+
+                layoutStart.setVisibility(View.INVISIBLE);
+                layoutProcess.setVisibility(View.VISIBLE);
+            }
+        });
+
+        image = binding.imageView;
+
+        textCount = binding.textCount;
+        textCount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+
+        textRussian = binding.textRussian;
+        textRussian.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
 
         return root;
     }
@@ -88,6 +144,86 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonAnswer1:
+                switch (correctAnswer) {
+                    case 0:
+                        list.get(item).setKnown(true);
+                        buttonAnswer1.setBackgroundColor(Color.GREEN);
+                        buttonAnswer2.setBackgroundColor(Color.WHITE);
+                        buttonAnswer3.setBackgroundColor(Color.WHITE);
+                        countCorrectAnswers++;
+                        break;
+                    case 1:
+                        list.get(item).setKnown(false);
+                        buttonAnswer1.setBackgroundColor(Color.RED);
+                        buttonAnswer2.setBackgroundColor(Color.GREEN);
+                        buttonAnswer3.setBackgroundColor(Color.WHITE);
+                        break;
+                    case 2:
+                        list.get(item).setKnown(false);
+                        buttonAnswer1.setBackgroundColor(Color.RED);
+                        buttonAnswer2.setBackgroundColor(Color.WHITE);
+                        buttonAnswer3.setBackgroundColor(Color.GREEN);
+                        break;
+                }
+                break;
+            case R.id.buttonAnswer2:
+                switch (correctAnswer) {
+                    case 0:
+                        list.get(item).setKnown(false);
+                        buttonAnswer1.setBackgroundColor(Color.GREEN);
+                        buttonAnswer2.setBackgroundColor(Color.RED);
+                        buttonAnswer3.setBackgroundColor(Color.WHITE);
+                        break;
+                    case 1:
+                        list.get(item).setKnown(true);
+                        buttonAnswer1.setBackgroundColor(Color.WHITE);
+                        buttonAnswer2.setBackgroundColor(Color.GREEN);
+                        buttonAnswer3.setBackgroundColor(Color.WHITE);
+                        countCorrectAnswers++;
+                        break;
+                    case 2:
+                        list.get(item).setKnown(false);
+                        buttonAnswer1.setBackgroundColor(Color.WHITE);
+                        buttonAnswer2.setBackgroundColor(Color.RED);
+                        buttonAnswer3.setBackgroundColor(Color.GREEN);
+                        break;
+                }
+                break;
+            case R.id.buttonAnswer3:
+                switch (correctAnswer) {
+                    case 0:
+                        list.get(item).setKnown(false);
+                        buttonAnswer1.setBackgroundColor(Color.GREEN);
+                        buttonAnswer2.setBackgroundColor(Color.WHITE);
+                        buttonAnswer3.setBackgroundColor(Color.RED);
+                        break;
+                    case 1:
+                        list.get(item).setKnown(false);
+                        buttonAnswer1.setBackgroundColor(Color.WHITE);
+                        buttonAnswer2.setBackgroundColor(Color.GREEN);
+                        buttonAnswer3.setBackgroundColor(Color.RED);
+                        break;
+                    case 2:
+                        list.get(item).setKnown(true);
+                        buttonAnswer1.setBackgroundColor(Color.WHITE);
+                        buttonAnswer2.setBackgroundColor(Color.WHITE);
+                        buttonAnswer3.setBackgroundColor(Color.GREEN);
+                        countCorrectAnswers++;
+                        break;
+                }
+                break;
+        }
+        buttonAnswer1.setEnabled(false);
+        buttonAnswer2.setEnabled(false);
+        buttonAnswer3.setEnabled(false);
+        buttonContinue.setVisibility(View.VISIBLE);
+        textCount.setText("Количество правильных ответов: " + countCorrectAnswers);
     }
 
     private int getRandInt(int max) {
@@ -135,68 +271,5 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
             image.setImageResource(list.get(i).getImage());
             image.setVisibility(View.VISIBLE);
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.buttonAnswer1:
-                switch (correctAnswer) {
-                    case 0:
-                        list.get(item).setKnown(true);
-                        buttonAnswer1.setBackgroundColor(Color.GREEN);
-                        break;
-                    case 1:
-                        list.get(item).setKnown(false);
-                        buttonAnswer1.setBackgroundColor(Color.RED);
-                        buttonAnswer2.setBackgroundColor(Color.GREEN);
-                        break;
-                    case 2:
-                        list.get(item).setKnown(false);
-                        buttonAnswer1.setBackgroundColor(Color.RED);
-                        buttonAnswer3.setBackgroundColor(Color.GREEN);
-                        break;
-                }
-                break;
-            case R.id.buttonAnswer2:
-                switch (correctAnswer) {
-                    case 0:
-                        list.get(item).setKnown(false);
-                        buttonAnswer1.setBackgroundColor(Color.GREEN);
-                        buttonAnswer2.setBackgroundColor(Color.RED);
-                        break;
-                    case 1:
-                        list.get(item).setKnown(true);
-                        buttonAnswer2.setBackgroundColor(Color.GREEN);
-                        break;
-                    case 2:
-                        list.get(item).setKnown(false);
-                        buttonAnswer2.setBackgroundColor(Color.RED);
-                        buttonAnswer3.setBackgroundColor(Color.GREEN);
-                        break;
-                }
-                break;
-            case R.id.buttonAnswer3:
-                switch (correctAnswer) {
-                    case 0:
-                        list.get(item).setKnown(false);
-                        buttonAnswer1.setBackgroundColor(Color.GREEN);
-                        buttonAnswer3.setBackgroundColor(Color.RED);
-                        break;
-                    case 1:
-                        list.get(item).setKnown(false);
-                        buttonAnswer2.setBackgroundColor(Color.GREEN);
-                        buttonAnswer3.setBackgroundColor(Color.RED);
-                        break;
-                    case 2:
-                        list.get(item).setKnown(true);
-                        buttonAnswer3.setBackgroundColor(Color.GREEN);
-                        break;
-                }
-                break;
-        }
-        buttonAnswer1.setEnabled(false);
-        buttonAnswer2.setEnabled(false);
-        buttonAnswer3.setEnabled(false);
     }
 }
