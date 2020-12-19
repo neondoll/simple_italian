@@ -138,7 +138,7 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
             case R.id.buttonAnswer1:
                 switch (correctAnswer) {
                     case 0:
-                        buttonAnswer1.setBackgroundColor(Color.GREEN);
+                        buttonAnswer1.setBackgroundColor(Color.rgb(4, 180, 4));
                         buttonAnswer2.setBackgroundColor(Color.WHITE);
                         buttonAnswer3.setBackgroundColor(Color.WHITE);
                         countCorrectAnswers++;
@@ -146,14 +146,14 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
                     case 1:
                         check = false;
                         buttonAnswer1.setBackgroundColor(Color.RED);
-                        buttonAnswer2.setBackgroundColor(Color.GREEN);
+                        buttonAnswer2.setBackgroundColor(Color.rgb(4, 180, 4));
                         buttonAnswer3.setBackgroundColor(Color.WHITE);
                         break;
                     case 2:
                         check = false;
                         buttonAnswer1.setBackgroundColor(Color.RED);
                         buttonAnswer2.setBackgroundColor(Color.WHITE);
-                        buttonAnswer3.setBackgroundColor(Color.GREEN);
+                        buttonAnswer3.setBackgroundColor(Color.rgb(4, 180, 4));
                         break;
                 }
                 break;
@@ -161,13 +161,13 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
                 switch (correctAnswer) {
                     case 0:
                         check = false;
-                        buttonAnswer1.setBackgroundColor(Color.GREEN);
+                        buttonAnswer1.setBackgroundColor(Color.rgb(4, 180, 4));
                         buttonAnswer2.setBackgroundColor(Color.RED);
                         buttonAnswer3.setBackgroundColor(Color.WHITE);
                         break;
                     case 1:
                         buttonAnswer1.setBackgroundColor(Color.WHITE);
-                        buttonAnswer2.setBackgroundColor(Color.GREEN);
+                        buttonAnswer2.setBackgroundColor(Color.rgb(4, 180, 4));
                         buttonAnswer3.setBackgroundColor(Color.WHITE);
                         countCorrectAnswers++;
                         break;
@@ -175,7 +175,7 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
                         check = false;
                         buttonAnswer1.setBackgroundColor(Color.WHITE);
                         buttonAnswer2.setBackgroundColor(Color.RED);
-                        buttonAnswer3.setBackgroundColor(Color.GREEN);
+                        buttonAnswer3.setBackgroundColor(Color.rgb(4, 180, 4));
                         break;
                 }
                 break;
@@ -183,20 +183,20 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
                 switch (correctAnswer) {
                     case 0:
                         check = false;
-                        buttonAnswer1.setBackgroundColor(Color.GREEN);
+                        buttonAnswer1.setBackgroundColor(Color.rgb(4, 180, 4));
                         buttonAnswer2.setBackgroundColor(Color.WHITE);
                         buttonAnswer3.setBackgroundColor(Color.RED);
                         break;
                     case 1:
                         check = false;
                         buttonAnswer1.setBackgroundColor(Color.WHITE);
-                        buttonAnswer2.setBackgroundColor(Color.GREEN);
+                        buttonAnswer2.setBackgroundColor(Color.rgb(4, 180, 4));
                         buttonAnswer3.setBackgroundColor(Color.RED);
                         break;
                     case 2:
                         buttonAnswer1.setBackgroundColor(Color.WHITE);
                         buttonAnswer2.setBackgroundColor(Color.WHITE);
-                        buttonAnswer3.setBackgroundColor(Color.GREEN);
+                        buttonAnswer3.setBackgroundColor(Color.rgb(4, 180, 4));
                         countCorrectAnswers++;
                         break;
                 }
