@@ -5,11 +5,11 @@ public class Word {
     private String italian;
     private String russian;
     private String transcription;
-    private String image;
+    private int image;
     private String speech;
     private Boolean known;
 
-    public Word(int id, String italian, String transcription, String russian, String speech, String image) {
+    public Word(int id, String italian, String transcription, String russian, String speech, int image) {
         this.id = id;
         this.italian = italian;
         this.russian = russian;
@@ -50,11 +50,11 @@ public class Word {
         return transcription;
     }
 
-    public void setImage(String image) {
+    public void setImage(int image) {
         this.image = image;
     }
 
-    public String getImage() {
+    public int getImage() {
         return image;
     }
 
