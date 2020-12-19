@@ -2,10 +2,13 @@ package com.example.simpleitalian.choice;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -23,11 +26,12 @@ public class ChoiceFragment extends Fragment {
     private Button buttonAnswer1, buttonAnswer2, buttonAnswer3;
     private ChoiceViewModel choiceViewModel;
     private FragmentChoiceBinding binding;
-    private int item, correctAnswer;
+    private ImageView image;
+    private TextView textRussian;
+    private int item, correctAnswer, sizeText = 24;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentChoiceBinding.inflate(inflater, container, false);
-
         choiceViewModel = new ViewModelProvider(this).get(ChoiceViewModel.class);
 
         correctAnswer = getRandInt(3);
@@ -67,6 +71,9 @@ public class ChoiceFragment extends Fragment {
         buttonAnswer1 = binding.buttonAnswer1;
         buttonAnswer2 = binding.buttonAnswer2;
         buttonAnswer3 = binding.buttonAnswer3;
+        image = binding.imageView;
+        textRussian = binding.textRussian;
+        textRussian.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeText);
 
         buttonAnswer1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,38 +156,41 @@ public class ChoiceFragment extends Fragment {
     }
 
     private void getViewWord(int i) {
-        binding.textRussian.setText(list.get(i).getRussian());
+        textRussian.setText(list.get(i).getRussian());
         int j, k;
         switch (correctAnswer) {
             case 0:
-                binding.buttonAnswer1.setText(list.get(i).getItalian());
+                buttonAnswer1.setText(list.get(i).getItalian());
                 j = getRandInt(list.size());
                 while (j == i) j = getRandInt(list.size());
-                binding.buttonAnswer2.setText(list.get(j).getItalian());
+                buttonAnswer2.setText(list.get(j).getItalian());
                 k = getRandInt(list.size());
                 while (k == i || k == j) k = getRandInt(list.size());
-                binding.buttonAnswer3.setText(list.get(k).getItalian());
+                buttonAnswer3.setText(list.get(k).getItalian());
                 break;
             case 1:
-                binding.buttonAnswer2.setText(list.get(i).getItalian());
+                buttonAnswer2.setText(list.get(i).getItalian());
                 j = getRandInt(list.size());
                 while (j == i) j = getRandInt(list.size());
-                binding.buttonAnswer1.setText(list.get(j).getItalian());
+                buttonAnswer1.setText(list.get(j).getItalian());
                 k = getRandInt(list.size());
                 while (k == i || k == j) k = getRandInt(list.size());
-                binding.buttonAnswer3.setText(list.get(k).getItalian());
+                buttonAnswer3.setText(list.get(k).getItalian());
                 break;
             case 2:
-                binding.buttonAnswer3.setText(list.get(i).getItalian());
+                buttonAnswer3.setText(list.get(i).getItalian());
                 j = getRandInt(list.size());
                 while (j == i) j = getRandInt(list.size());
-                binding.buttonAnswer1.setText(list.get(j).getItalian());
+                buttonAnswer1.setText(list.get(j).getItalian());
                 k = getRandInt(list.size());
                 while (k == i || k == j) k = getRandInt(list.size());
-                binding.buttonAnswer2.setText(list.get(k).getItalian());
+                buttonAnswer2.setText(list.get(k).getItalian());
                 break;
         }
-        if (list.get(i).getImage() == 0) binding.imageView.setVisibility(View.GONE);
-        else binding.imageView.setVisibility(View.VISIBLE);
+        if (list.get(i).getImage() == 0) image.setVisibility(View.GONE);
+        else {
+            image.setImageResource(list.get(i).getImage());
+            image.setVisibility(View.VISIBLE);
+        }
     }
 }
