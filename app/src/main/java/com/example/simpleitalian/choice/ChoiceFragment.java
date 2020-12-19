@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-
 import com.example.simpleitalian.R;
 import com.example.simpleitalian.Word;
 import com.example.simpleitalian.databinding.FragmentChoiceBinding;
@@ -176,6 +175,7 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
                         buttonAnswer3.setBackgroundColor(Color.GREEN);
                         break;
                 }
+                break;
             case R.id.buttonAnswer3:
                 switch (correctAnswer) {
                     case 0:

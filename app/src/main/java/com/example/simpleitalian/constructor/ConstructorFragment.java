@@ -27,9 +27,8 @@ public class ConstructorFragment extends Fragment {
     private ArrayList<Word> list;
     private Button buttonClear, buttonVerify;
     private ConstructorViewModel constructorViewModel;
-    private EditText editText;
     private FragmentConstructorBinding binding;
-    private TextView textRussian, textResult;
+    private TextView textRussian, textResult, editText;
     private int item;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -186,6 +185,7 @@ public class ConstructorFragment extends Fragment {
 
     private void getViewWord(int item) {
         textRussian.setText(list.get(item).getRussian());
+        editText.setText("");
 
         ArrayList<Integer> word = new ArrayList<>();
         boolean check;
