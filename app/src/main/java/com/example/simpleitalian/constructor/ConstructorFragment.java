@@ -1,14 +1,12 @@
 package com.example.simpleitalian.constructor;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.simpleitalian.R;
 import com.example.simpleitalian.Word;
-import com.example.simpleitalian.addnewword.AddNewWordFragment;
 import com.example.simpleitalian.databinding.FragmentConstructorBinding;
 
 import java.util.ArrayList;
@@ -25,10 +22,22 @@ import java.util.Random;
 public class ConstructorFragment extends Fragment {
     private ArrayList<Button> buttons;
     private ArrayList<Word> list;
-    private Button buttonClear, buttonVerify;
+    private ArrayList<Word> listConstructor;
+    private Button buttonClear;
+    private Button buttonContinue;
+    private Button buttonFinish;
+    private Button buttonRestart;
+    private Button buttonVerify;
     private ConstructorViewModel constructorViewModel;
     private FragmentConstructorBinding binding;
-    private TextView textRussian, textResult, editText;
+    private LinearLayout layoutProcess;
+    private LinearLayout layoutStart;
+    private TextView editText;
+    private TextView textResult;
+    private TextView textRussian;
+    private Word currentWord;
+    private int countCorrectAnswers;
+    private int countWords = 3;
     private int item;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +45,184 @@ public class ConstructorFragment extends Fragment {
 
         constructorViewModel = new ViewModelProvider(this).get(ConstructorViewModel.class);
 
+        View root = binding.getRoot();
+
+        layoutStart = binding.layoutStart;
+
+        Button buttonStart = binding.buttonStart;
+        buttonStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start();
+            }
+        });
+
+        layoutProcess = binding.layoutProcess;
+
+        buttons = new ArrayList<>();
+        buttons.add((Button) binding.button1);
+        buttons.add((Button) binding.button2);
+        buttons.add((Button) binding.button3);
+        buttons.add((Button) binding.button4);
+        buttons.add((Button) binding.button5);
+        buttons.add((Button) binding.button6);
+        buttons.add((Button) binding.button7);
+        buttons.add((Button) binding.button8);
+        buttons.add((Button) binding.button9);
+        buttons.add((Button) binding.button10);
+        buttons.add((Button) binding.button11);
+        buttons.add((Button) binding.button12);
+        buttons.add((Button) binding.button13);
+        buttons.add((Button) binding.button14);
+        buttons.add((Button) binding.button15);
+        buttons.add((Button) binding.button16);
+        buttons.add((Button) binding.button17);
+        buttons.add((Button) binding.button18);
+        buttons.add((Button) binding.button19);
+        buttons.add((Button) binding.button20);
+        buttons.add((Button) binding.button21);
+        buttons.add((Button) binding.button22);
+        buttons.add((Button) binding.button23);
+        buttons.add((Button) binding.button24);
+        for (int i = 0; i < buttons.size(); i++) {
+            int finalI = i;
+            buttons.get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    writeLetter(buttons.get(finalI));
+                    buttons.get(finalI).setVisibility(View.INVISIBLE);
+                }
+            });
+        }
+
+        buttonClear = binding.buttonClear;
+        buttonClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editText.setText("");
+                for (int i = 0; i < currentWord.getItalian().length(); i++) {
+                    buttons.get(i).setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        buttonContinue = binding.buttonContinue;
+        buttonContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                item++;
+                currentWord = listConstructor.get(item);
+
+                getViewWord();
+
+                for (int i = 0; i < buttons.size(); i++) buttons.get(i).setEnabled(true);
+                buttonContinue.setVisibility(View.GONE);
+                buttonClear.setVisibility(View.VISIBLE);
+                buttonVerify.setVisibility(View.VISIBLE);
+                textResult.setText("");
+            }
+        });
+
+        buttonFinish = binding.buttonFinish;
+        buttonFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutStart.setVisibility(View.VISIBLE);
+                layoutProcess.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        buttonRestart = binding.buttonRestart;
+        buttonRestart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start();
+            }
+        });
+
+        buttonVerify = binding.buttonVerify;
+        buttonVerify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < buttons.size(); i++) buttons.get(i).setEnabled(false);
+                if (editText.getText().toString().equals(currentWord.getItalian())) {
+                    textResult.setText("Успешно!");
+                    countCorrectAnswers++;
+                    if (countCorrectAnswers != listConstructor.size())
+                        buttonContinue.setVisibility(View.VISIBLE);
+                    else buttonFinish.setVisibility(View.VISIBLE);
+                } else {
+                    textResult.setText("Ошибка! Правильный ответ: " + currentWord.getItalian());
+                    buttonRestart.setVisibility(View.VISIBLE);
+                }
+                buttonClear.setVisibility(View.GONE);
+                buttonVerify.setVisibility(View.GONE);
+            }
+        });
+
+        editText = binding.editText;
+
+        textRussian = binding.textRussian;
+
+        textResult = binding.textResult;
+
+        return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    private int getRandInt(int max) {
+        Random rand = new Random();
+        return rand.nextInt(max);
+    }
+
+    private void writeLetter(View view) {
+        Button button = (Button) view;
+        String text = editText.getText().toString();
+        editText.setText(text + button.getText());
+    }
+
+    private void getViewWord() {
+        textRussian.setText(currentWord.getRussian());
+
+        editText.setText("");
+
+        ArrayList<Integer> word = new ArrayList<>();
+        boolean check;
+        String italian = currentWord.getItalian();
+        while (true) {
+            check = true;
+            int i = getRandInt(italian.length());
+            for (int j = 0; j < word.size(); j++) {
+                if (i == word.get(j)) {
+                    check = false;
+                    break;
+                }
+            }
+            if (check) {
+                word.add(i);
+                if (word.size() == italian.length()) break;
+            }
+        }
+
+        for (int i = 0; i < buttons.size(); i++) {
+            System.out.println(i);
+            if (i < word.size()) {
+                buttons.get(i).setText("" + italian.charAt(word.get(i)));
+                buttons.get(i).setVisibility(View.VISIBLE);
+            } else {
+                if ((int) (word.size() / 6) < (int) (i / 6))
+                    buttons.get(i).setVisibility(View.GONE);
+                else buttons.get(i).setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    public void start() {
         list = new ArrayList<>();
         //list.add(new Word(1, "l'uomo", "[л уОмо]", "мужчина", "", ""));
         //list.add(new Word(2, "la donna", "[ла дОнна]", "женщина", "", ""));
@@ -63,159 +250,34 @@ public class ConstructorFragment extends Fragment {
         list.add(new Word(24, "il cugino", "[иль куджИно]", "двоюродный брат", "", ""));
         list.add(new Word(25, "la сugina", "[ла куджИна]", "двоюродная сестра", "", ""));*/
 
-        item = getRandInt(list.size());
-
-        View root = binding.getRoot();
-
-        buttons = new ArrayList<>();
-        buttons.add((Button) binding.button1);
-        buttons.add((Button) binding.button2);
-        buttons.add((Button) binding.button3);
-        buttons.add((Button) binding.button4);
-        buttons.add((Button) binding.button5);
-        buttons.add((Button) binding.button6);
-        buttons.add((Button) binding.button7);
-        buttons.add((Button) binding.button8);
-        buttons.add((Button) binding.button9);
-        buttons.add((Button) binding.button10);
-        buttons.add((Button) binding.button11);
-        buttons.add((Button) binding.button12);
-        buttons.add((Button) binding.button13);
-        buttons.add((Button) binding.button14);
-        buttons.add((Button) binding.button15);
-        buttons.add((Button) binding.button16);
-        buttons.add((Button) binding.button17);
-        buttons.add((Button) binding.button18);
-        buttons.add((Button) binding.button19);
-        buttons.add((Button) binding.button20);
-        buttons.add((Button) binding.button21);
-        buttons.add((Button) binding.button22);
-        buttons.add((Button) binding.button23);
-        buttons.add((Button) binding.button24);
-        buttonClear = binding.buttonClear;
-        buttonVerify = binding.buttonVerify;
-        editText = binding.editText;
-        textRussian = binding.textRussian;
-        textResult = binding.textResult;
-
-        /*ArrayList<Integer> word = new ArrayList<>();
-        boolean check;
-        String italian = list.get(item).getItalian();
-        while (true) {
-            check = true;
-            int i = getRandInt(italian.length());
-            for (int j = 0; j < word.size(); j++) {
-                if (i == word.get(j)) {
-                    check = false;
-                    break;
-                }
-            }
-            if (check) {
-                word.add(i);
-                if (word.size() == italian.length()) break;
+        listConstructor = new ArrayList<>();
+        for (int i = 0; i < countWords; ) {
+            int j = getRandInt(list.size());
+            if (listConstructor.indexOf(list.get(j)) == -1) {
+                listConstructor.add(list.get(j));
+                i++;
             }
         }
 
-        for (int i = 0; i < buttons.size(); i++) {
-            System.out.println(i);
-            if (i < word.size()) {
-                buttons.get(i).setText("" + italian.charAt(word.get(i)));
-                buttons.get(i).setVisibility(View.VISIBLE);
-            } else {
-                if ((int) (word.size() / 6) < (int) (i / 6))
-                    buttons.get(i).setVisibility(View.GONE);
-                else buttons.get(i).setVisibility(View.INVISIBLE);
-            }
+        countCorrectAnswers = 0;
 
-        }*/
-        String italian = list.get(item).getItalian();
-        for (int i = 0; i < italian.length(); i++) {
-            int finalI = i;
-            buttons.get(i).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    writeLetter(buttons.get(finalI));
-                    buttons.get(finalI).setVisibility(View.INVISIBLE);
-                }
-            });
-        }
-        buttonClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editText.setText("");
-                for (int i = 0; i < italian.length(); i++) {
-                    buttons.get(i).setVisibility(View.VISIBLE);
-                }
-            }
-        });
-        buttonVerify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (editText.getText().toString().equals(italian)) {
-                    textResult.setText("Успешно!");
-                } else {
-                    textResult.setText("Ошибка! Правильный ответ: " + italian);
-                }
-                buttonClear.setVisibility(View.GONE);
-                buttonVerify.setVisibility(View.GONE);
-            }
-        });
+        item = 0;
+        currentWord = listConstructor.get(item);
 
-        getViewWord(item);
+        getViewWord();
 
-        return root;
-    }
+        //textCount.setText("Количество правильных ответов: " + countCorrectAnswers);
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
+        layoutStart.setVisibility(View.INVISIBLE);
 
-    private int getRandInt(int max) {
-        Random rand = new Random();
-        return rand.nextInt(max);
-    }
+        layoutProcess.setVisibility(View.VISIBLE);
 
-    private void writeLetter(View view) {
-        Button button = (Button) view;
-        String text = editText.getText().toString();
-        editText.setText(text + button.getText());
-    }
+        for (int i = 0; i < buttons.size(); i++) buttons.get(i).setEnabled(true);
+        buttonClear.setVisibility(View.VISIBLE);
+        buttonFinish.setVisibility(View.GONE);
+        buttonRestart.setVisibility(View.GONE);
+        buttonVerify.setVisibility(View.VISIBLE);
 
-    private void getViewWord(int item) {
-        textRussian.setText(list.get(item).getRussian());
-        editText.setText("");
-
-        ArrayList<Integer> word = new ArrayList<>();
-        boolean check;
-        String italian = list.get(item).getItalian();
-        while (true) {
-            check = true;
-            int i = getRandInt(italian.length());
-            for (int j = 0; j < word.size(); j++) {
-                if (i == word.get(j)) {
-                    check = false;
-                    break;
-                }
-            }
-            if (check) {
-                word.add(i);
-                if (word.size() == italian.length()) break;
-            }
-        }
-
-        for (int i = 0; i < buttons.size(); i++) {
-            System.out.println(i);
-            if (i < word.size()) {
-                buttons.get(i).setText("" + italian.charAt(word.get(i)));
-                buttons.get(i).setVisibility(View.VISIBLE);
-            } else {
-                if ((int) (word.size() / 6) < (int) (i / 6))
-                    buttons.get(i).setVisibility(View.GONE);
-                else buttons.get(i).setVisibility(View.INVISIBLE);
-            }
-
-        }
+        textResult.setText("");
     }
 }

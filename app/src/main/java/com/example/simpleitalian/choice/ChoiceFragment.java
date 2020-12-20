@@ -25,6 +25,7 @@ import java.util.Random;
 
 public class ChoiceFragment extends Fragment implements View.OnClickListener {
     private ArrayList<Word> list;
+    private ArrayList<Word> listChoice;
     private Button buttonAnswer1;
     private Button buttonAnswer2;
     private Button buttonAnswer3;
@@ -38,12 +39,11 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
     private LinearLayout layoutStart;
     private TextView textCount;
     private TextView textRussian;
+    private Word currentWord;
     private int correctAnswer;
     private int countCorrectAnswers;
     private int item;
     private int countWords = 3;
-    private ArrayList<Word> listChoice;
-    private Word currentWord;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentChoiceBinding.inflate(inflater, container, false);
