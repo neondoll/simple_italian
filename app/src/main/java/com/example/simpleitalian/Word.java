@@ -6,10 +6,10 @@ public class Word {
     private String russian;
     private String transcription;
     private int image;
-    private String speech;
+    private int speech;
     private Boolean known;
 
-    public Word(int id, String italian, String transcription, String russian, String speech, int image) {
+    public Word(long id, String italian, String transcription, String russian, int speech, int image) {
         this.id = id;
         this.italian = italian;
         this.russian = russian;
@@ -58,11 +58,11 @@ public class Word {
         return image;
     }
 
-    public void setSpeech(String speech) {
+    public void setSpeech(int speech) {
         this.speech = speech;
     }
 
-    public String getSpeech() {
+    public int getSpeech() {
         return speech;
     }
 
