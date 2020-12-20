@@ -13,15 +13,23 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.simpleitalian.DBWords;
+import com.example.simpleitalian.R;
+import com.example.simpleitalian.Word;
 import com.example.simpleitalian.databinding.FragmentAddNewWordBinding;
+
+import java.util.ArrayList;
 
 public class AddNewWordFragment extends Fragment {
     private AddNewWordViewModel addNewWordViewModel;
     private Button buttonAdd;
+    private DBWords DBConnector;
     private EditText textItalian, textRussian, textTranscription;
     private FragmentAddNewWordBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        DBConnector = new DBWords(getActivity());
+
         addNewWordViewModel = new ViewModelProvider(this).get(AddNewWordViewModel.class);
         binding = FragmentAddNewWordBinding.inflate(inflater, container, false);
 
@@ -35,11 +43,24 @@ public class AddNewWordFragment extends Fragment {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textItalian.setText("");
-                textRussian.setText("");
-                textTranscription.setText("");
+                String message;
+                if (
+                        !textItalian.getText().toString().equals("") &&
+                                !textRussian.getText().toString().equals("") &&
+                                !textTranscription.getText().toString().equals("")
+                ) {
+                    if (!isWordInDatabase(textItalian.getText().toString(), textRussian.getText().toString())) {
+                        DBConnector.insert(textItalian.getText().toString(), textRussian.getText().toString(), textTranscription.getText().toString(), 0, 0);
 
-                new ProgressTask().execute();
+                        textItalian.setText("");
+                        textRussian.setText("");
+                        textTranscription.setText("");
+
+                        message = "Успешно!";
+                    } else message = "Такая запись уже есть!";
+                } else message = "Заполните все поля!";
+
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -52,19 +73,15 @@ public class AddNewWordFragment extends Fragment {
         binding = null;
     }
 
-    class ProgressTask extends AsyncTask<Void, Integer, Void> {
-        @Override
-        protected Void doInBackground(Void... unused) {
-            return null;
+    private boolean isWordInDatabase(String italian, String russian) {
+        ArrayList<Word> words = DBConnector.selectAll(italian);
+        if (words.size() > 0) {
+            for (int i = 0; i < words.size(); i++) {
+                if (words.get(i).getRussian().equals(russian)) {
+                    return true;
+                }
+            }
         }
-
-        @Override
-        protected void onProgressUpdate(Integer... items) {
-        }
-
-        @Override
-        protected void onPostExecute(Void unused) {
-            Toast.makeText(getActivity(), "Успешно!", Toast.LENGTH_SHORT).show();
-        }
+        return false;
     }
 }

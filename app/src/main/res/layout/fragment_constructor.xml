@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
-            android:text="Дано слово на русском языке,\nтребуется составить перевод\nна итальянском, используя\nкнопки с буквами"
+            android:text="Дано слово на русском языке, требуется составить перевод на итальянском, используя кнопки с буквами"
             android:textSize="20sp" />
 
         <Button
