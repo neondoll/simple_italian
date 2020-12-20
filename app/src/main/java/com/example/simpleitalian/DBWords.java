@@ -115,6 +115,25 @@ public class DBWords {
         return arr;
     }
 
+    public ArrayList<Word> selectAllOrderBy(String orderBy) {
+        Cursor mCursor = mDataBase.query(TABLE_NAME, null, null, null, null, null, orderBy);
+
+        ArrayList<Word> arr = new ArrayList<Word>();
+        mCursor.moveToFirst();
+        if (!mCursor.isAfterLast()) {
+            do {
+                long id = mCursor.getLong(NUM_COLUMN_ID);
+                String italian = mCursor.getString(NUM_COLUMN_ITALIAN);
+                String russian = mCursor.getString(NUM_COLUMN_RUSSIAN);
+                String transcription = mCursor.getString(NUM_COLUMN_TRANSCRIPTION);
+                int image = mCursor.getInt(NUM_COLUMN_IMAGE);
+                int speech = mCursor.getInt(NUM_COLUMN_SPEECH);
+                arr.add(new Word(id, italian, transcription, russian, speech, image));
+            } while (mCursor.moveToNext());
+        }
+        return arr;
+    }
+
     private class OpenHelper extends SQLiteOpenHelper {
 
         OpenHelper(Context context) {
