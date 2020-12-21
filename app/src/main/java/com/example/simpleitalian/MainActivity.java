@@ -78,6 +78,21 @@ public class MainActivity extends AppCompatActivity {
         if (!DBConnector.isInDatabase("la sorella", "сестра")) {
             DBConnector.insert("la sorella", "сестра", "[ла сорЕлла]", R.drawable.image3, 0);
         }
+        /*if (!DBConnector.isInDatabase("l'uomo", "мужчина")) {
+            DBConnector.insert("l'uomo", "мужчина", "[л уОмо]", R.drawable.image6, 0);
+        }
+        if (!DBConnector.isInDatabase("la donna", "женщина")) {
+            DBConnector.insert("la donna", "мужчина", "[ла дОнна]", R.drawable.image7, 0);
+        }
+        if (!DBConnector.isInDatabase("il ragazzo", "мальчик")) {
+            DBConnector.insert("il ragazzo", "мальчик", "[иль рагАццо]", 0, 0);
+        }
+        if (!DBConnector.isInDatabase("la ragazzo", "девочка")) {
+            DBConnector.insert("la ragazzo", "девочка", "[ла рагАцца]", 0, 0);
+        }
+        if (!DBConnector.isInDatabase("l'amico", "друг")) {
+            DBConnector.insert("l'amico", "друг", "[л амИко]", 0, 0);
+        }*/
         ArrayList<Word> words = DBConnector.selectAll();
         for (int i = 0; i < words.size(); i++) words.get(i).print();
         //DBConnector.deleteAll();
