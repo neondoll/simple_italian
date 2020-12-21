@@ -39,7 +39,7 @@ public class LearnWordFragment extends Fragment implements View.OnClickListener 
         learnWordViewModel = new ViewModelProvider(this).get(LearnWordViewModel.class);
 
         list = new ArrayList<>();
-        list.add(new Word(0, "", "", "", 0, 0));
+        list.add(new Word(0, "", "", "", 0, 0, false));
         list.addAll(DBConnector.selectAll());
         //list.add(new Word(1, "l'uomo", "[л уОмо]", "мужчина", "", ""));
         //list.add(new Word(2, "la donna", "[ла дОнна]", "женщина", "", ""));

@@ -43,7 +43,8 @@ public class DBWords {
         cv.put(COLUMN_TRANSCRIPTION, transcription);
         cv.put(COLUMN_IMAGE, image);
         cv.put(COLUMN_SPEECH, speech);
-        cv.put(COLUMN_KNOWN, false);
+        cv.put(COLUMN_KNOWN, 0);
+
         return mDataBase.insert(TABLE_NAME, null, cv);
     }
 
@@ -54,7 +55,8 @@ public class DBWords {
         cv.put(COLUMN_TRANSCRIPTION, md.getTranscription());
         cv.put(COLUMN_IMAGE, md.getImage());
         cv.put(COLUMN_SPEECH, md.getSpeech());
-        cv.put(COLUMN_KNOWN, md.getKnown());
+        cv.put(COLUMN_KNOWN, md.getKnown() ? 1 : 0);
+
         return mDataBase.update(TABLE_NAME, cv, COLUMN_ID + " = ?", new String[]{String.valueOf(md.getId())});
     }
 
@@ -75,7 +77,9 @@ public class DBWords {
         String transcription = mCursor.getString(NUM_COLUMN_TRANSCRIPTION);
         int image = mCursor.getInt(NUM_COLUMN_IMAGE);
         int speech = mCursor.getInt(NUM_COLUMN_SPEECH);
-        return new Word(id, italian, transcription, russian, speech, image);
+        boolean know = (mCursor.getInt(NUM_COLUMN_KNOWN) == 1);
+
+        return new Word(id, italian, transcription, russian, speech, image, know);
     }
 
     public ArrayList<Word> selectAll(String italian) {
@@ -90,9 +94,11 @@ public class DBWords {
                 String transcription = mCursor.getString(NUM_COLUMN_TRANSCRIPTION);
                 int image = mCursor.getInt(NUM_COLUMN_IMAGE);
                 int speech = mCursor.getInt(NUM_COLUMN_SPEECH);
-                arr.add(new Word(id, italian, transcription, russian, speech, image));
+                boolean know = (mCursor.getInt(NUM_COLUMN_KNOWN) == 1);
+                arr.add(new Word(id, italian, transcription, russian, speech, image, know));
             } while (mCursor.moveToNext());
         }
+
         return arr;
     }
 
@@ -109,9 +115,11 @@ public class DBWords {
                 String transcription = mCursor.getString(NUM_COLUMN_TRANSCRIPTION);
                 int image = mCursor.getInt(NUM_COLUMN_IMAGE);
                 int speech = mCursor.getInt(NUM_COLUMN_SPEECH);
-                arr.add(new Word(id, italian, transcription, russian, speech, image));
+                boolean know = (mCursor.getInt(NUM_COLUMN_KNOWN) == 1);
+                arr.add(new Word(id, italian, transcription, russian, speech, image, know));
             } while (mCursor.moveToNext());
         }
+
         return arr;
     }
 
@@ -128,10 +136,24 @@ public class DBWords {
                 String transcription = mCursor.getString(NUM_COLUMN_TRANSCRIPTION);
                 int image = mCursor.getInt(NUM_COLUMN_IMAGE);
                 int speech = mCursor.getInt(NUM_COLUMN_SPEECH);
-                arr.add(new Word(id, italian, transcription, russian, speech, image));
+                boolean know = (mCursor.getInt(NUM_COLUMN_KNOWN) == 1);
+                arr.add(new Word(id, italian, transcription, russian, speech, image, know));
             } while (mCursor.moveToNext());
         }
+
         return arr;
+    }
+
+    public boolean isInDatabase(String italian, String russian) {
+        ArrayList<Word> words = selectAll(italian);
+        if (words.size() > 0) {
+            for (int i = 0; i < words.size(); i++) {
+                if (words.get(i).getRussian().equals(russian)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private class OpenHelper extends SQLiteOpenHelper {

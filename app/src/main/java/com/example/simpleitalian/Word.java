@@ -7,15 +7,16 @@ public class Word {
     private String transcription;
     private int image;
     private int speech;
-    private Boolean known;
+    private boolean known;
 
-    public Word(long id, String italian, String transcription, String russian, int speech, int image) {
+    public Word(long id, String italian, String transcription, String russian, int speech, int image, boolean known) {
         this.id = id;
         this.italian = italian;
         this.russian = russian;
         this.transcription = transcription;
         this.speech = speech;
         this.image = image;
+        this.known = known;
     }
 
     public void setId(long id) {
@@ -66,11 +67,17 @@ public class Word {
         return speech;
     }
 
-    public void setKnown(Boolean known) {
+    public void setKnown(boolean known) {
         this.known = known;
     }
 
-    public Boolean getKnown() {
+    public boolean getKnown() {
         return known;
+    }
+
+    public void print() {
+        System.out.println("Word: (id: " + id + "; italian: " + italian + "; russian: " + russian +
+                "; transcription: " + transcription + "; image: " + image + "; speech: " + speech +
+                "; known: " + known + ");");
     }
 }

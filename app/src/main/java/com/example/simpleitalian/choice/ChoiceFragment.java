@@ -88,7 +88,7 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
                 buttonAnswer2.setBackgroundColor(Color.MAGENTA);
                 buttonAnswer3.setBackgroundColor(Color.MAGENTA);
 
-                buttonContinue.setVisibility(View.GONE);
+                buttonContinue.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -214,8 +214,14 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
         if (check) {
             if (countCorrectAnswers != listChoice.size())
                 buttonContinue.setVisibility(View.VISIBLE);
-            else buttonFinish.setVisibility(View.VISIBLE);
-        } else buttonRestart.setVisibility(View.VISIBLE);
+            else {
+                buttonContinue.setVisibility(View.GONE);
+                buttonFinish.setVisibility(View.VISIBLE);
+            }
+        } else {
+            buttonContinue.setVisibility(View.GONE);
+            buttonRestart.setVisibility(View.VISIBLE);
+        }
 
 
         textCount.setText("Количество правильных ответов: " + countCorrectAnswers);
@@ -272,7 +278,7 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
         buttonAnswer3.setBackgroundColor(Color.MAGENTA);
         buttonAnswer3.setEnabled(true);
 
-        buttonContinue.setVisibility(View.GONE);
+        buttonContinue.setVisibility(View.INVISIBLE);
         buttonFinish.setVisibility(View.GONE);
 
         if (currentWord.getImage() == 0) image.setVisibility(View.GONE);

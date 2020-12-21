@@ -39,8 +39,9 @@
 
         <Button
             android:id="@+id/button_start"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Старт" />
     </LinearLayout>
 
@@ -104,9 +105,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="100px" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="25dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/button_continue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Продолжить"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/button_finish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Закончить"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/button_restart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Начать с начала"
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="bottom"
@@ -138,6 +167,6 @@
                 android:layout_marginBottom="25dp"
                 android:text="Начать с начала"
                 android:visibility="gone" />
-        </LinearLayout>
+        </LinearLayout>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
