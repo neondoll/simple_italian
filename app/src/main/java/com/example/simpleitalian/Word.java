@@ -22,7 +22,6 @@ public class Word {
     public void setId(long id) {
         this.id = id;
     }
-
     public long getId() {
         return id;
     }
@@ -30,7 +29,6 @@ public class Word {
     public void setItalian(String italian) {
         this.italian = italian;
     }
-
     public String getItalian() {
         return italian;
     }
@@ -38,7 +36,6 @@ public class Word {
     public void setRussian(String russian) {
         this.russian = russian;
     }
-
     public String getRussian() {
         return russian;
     }
@@ -46,7 +43,6 @@ public class Word {
     public void setTranscription(String transcription) {
         this.transcription = transcription;
     }
-
     public String getTranscription() {
         return transcription;
     }
@@ -54,7 +50,6 @@ public class Word {
     public void setImage(int image) {
         this.image = image;
     }
-
     public int getImage() {
         return image;
     }
@@ -62,7 +57,6 @@ public class Word {
     public void setSpeech(int speech) {
         this.speech = speech;
     }
-
     public int getSpeech() {
         return speech;
     }
@@ -70,7 +64,6 @@ public class Word {
     public void setKnown(boolean known) {
         this.known = known;
     }
-
     public boolean getKnown() {
         return known;
     }
