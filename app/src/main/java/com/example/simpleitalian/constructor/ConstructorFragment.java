@@ -1,7 +1,9 @@
 package com.example.simpleitalian.constructor;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,8 @@ public class ConstructorFragment extends Fragment {
     private LinearLayout layoutProcess;
     private LinearLayout layoutStart;
     private TextView editText;
-    private TextView textResult;
+    private TextView textCount;
+    private Button textResult;
     private TextView textRussian;
     private Word currentWord;
     private int countCorrectAnswers;
@@ -116,7 +119,7 @@ public class ConstructorFragment extends Fragment {
                 buttonContinue.setVisibility(View.GONE);
                 buttonClear.setVisibility(View.VISIBLE);
                 buttonVerify.setVisibility(View.VISIBLE);
-                textResult.setText("");
+                textResult.setVisibility(View.GONE);
             }
         });
 
@@ -137,11 +140,19 @@ public class ConstructorFragment extends Fragment {
                 for (int i = 0; i < buttons.size(); i++) buttons.get(i).setEnabled(false);
                 if (editText.getText().toString().equals(currentWord.getItalian())) {
                     textResult.setText("Успешно!");
+                    textResult.setVisibility(View.VISIBLE);
+                    textResult.setBackgroundColor(Color.rgb(4, 180, 4));
+                    textResult.setTextColor(Color.WHITE);
                     countCorrectAnswers++;
                 } else {
                     textResult.setText("Ошибка! Правильный ответ: " + currentWord.getItalian());
+                    textResult.setVisibility(View.VISIBLE);
+                    textResult.setBackgroundColor(Color.RED);
+                    textResult.setTextColor(Color.WHITE);
                     viewModel.setKnown(currentWord);
                 }
+
+                setText();
 
                 if (item != wordsConstructor.size() - 1)
                     buttonContinue.setVisibility(View.VISIBLE);
@@ -153,8 +164,13 @@ public class ConstructorFragment extends Fragment {
         });
 
         editText = binding.editText;
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+
+        textCount = binding.textCount;
+        textCount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 
         textRussian = binding.textRussian;
+        textRussian.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
 
         textResult = binding.textResult;
 
@@ -216,6 +232,7 @@ public class ConstructorFragment extends Fragment {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public void start() {
         ArrayList<Word> wordsKnown = viewModel.selectAllKnown();
         ArrayList<Word> wordsNoKnown = viewModel.selectAllNoKnown();
@@ -279,8 +296,7 @@ public class ConstructorFragment extends Fragment {
         currentWord = wordsConstructor.get(item);
 
         getViewWord();
-
-        //textCount.setText("Количество правильных ответов: " + countCorrectAnswers);
+        setText();
 
         layoutStart.setVisibility(View.INVISIBLE);
 
@@ -292,5 +308,10 @@ public class ConstructorFragment extends Fragment {
         buttonVerify.setVisibility(View.VISIBLE);
 
         textResult.setText("");
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void setText() {
+        textCount.setText("Количество правильных ответов: " + countCorrectAnswers + " / " + countWordsConstructor);
     }
 }
