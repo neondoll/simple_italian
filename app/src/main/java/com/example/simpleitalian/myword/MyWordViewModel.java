@@ -1,19 +1,22 @@
 package com.example.simpleitalian.myword;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import android.content.Context;
+
 import androidx.lifecycle.ViewModel;
 
+import com.example.simpleitalian.DBWords;
+import com.example.simpleitalian.Word;
+
+import java.util.ArrayList;
+
 public class MyWordViewModel extends ViewModel {
+    private final DBWords DBConnector;
 
-    private MutableLiveData<String> mText;
-
-    public MyWordViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is 2 fragment");
+    public MyWordViewModel(Context context) {
+        DBConnector = new DBWords(context);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public ArrayList<Word> selectAll() {
+        return DBConnector.selectAllOrderBy("italian");
     }
 }

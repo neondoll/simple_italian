@@ -1,18 +1,27 @@
 package com.example.simpleitalian.learnword;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import android.content.Context;
+
 import androidx.lifecycle.ViewModel;
 
-public class LearnWordViewModel extends ViewModel {
-    private MutableLiveData<String> mText;
+import com.example.simpleitalian.DBWords;
+import com.example.simpleitalian.Word;
 
-    public LearnWordViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is learn word fragment");
+import java.util.ArrayList;
+
+public class LearnWordViewModel extends ViewModel {
+    private final DBWords DBConnector;
+
+    public LearnWordViewModel(Context context) {
+        DBConnector = new DBWords(context);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public ArrayList<Word> selectAllNoKnown() {
+        return DBConnector.selectAllWhereKnown(false);
+    }
+
+    public void setKnown(Word word) {
+        word.setKnown(true);
+        DBConnector.update(word);
     }
 }

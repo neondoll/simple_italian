@@ -29,7 +29,7 @@ public class DBWords {
     private static final int NUM_COLUMN_SPEECH = 5;
     private static final int NUM_COLUMN_KNOWN = 6;
 
-    private SQLiteDatabase mDataBase;
+    private final SQLiteDatabase mDataBase;
 
     public DBWords(Context context) {
         OpenHelper mOpenHelper = new OpenHelper(context);
@@ -82,6 +82,27 @@ public class DBWords {
         return new Word(id, italian, transcription, russian, speech, image, know);
     }
 
+    public ArrayList<Word> selectAll() {
+        Cursor mCursor = mDataBase.query(TABLE_NAME, null, null, null, null, null, null);
+
+        ArrayList<Word> arr = new ArrayList<Word>();
+        mCursor.moveToFirst();
+        if (!mCursor.isAfterLast()) {
+            do {
+                long id = mCursor.getLong(NUM_COLUMN_ID);
+                String italian = mCursor.getString(NUM_COLUMN_ITALIAN);
+                String russian = mCursor.getString(NUM_COLUMN_RUSSIAN);
+                String transcription = mCursor.getString(NUM_COLUMN_TRANSCRIPTION);
+                int image = mCursor.getInt(NUM_COLUMN_IMAGE);
+                int speech = mCursor.getInt(NUM_COLUMN_SPEECH);
+                boolean know = (mCursor.getInt(NUM_COLUMN_KNOWN) == 1);
+                arr.add(new Word(id, italian, transcription, russian, speech, image, know));
+            } while (mCursor.moveToNext());
+        }
+
+        return arr;
+    }
+
     public ArrayList<Word> selectAll(String italian) {
         Cursor mCursor = mDataBase.query(TABLE_NAME, null, COLUMN_ITALIAN + " = ?", new String[]{String.valueOf(italian)}, null, null, null);
 
@@ -102,8 +123,8 @@ public class DBWords {
         return arr;
     }
 
-    public ArrayList<Word> selectAll() {
-        Cursor mCursor = mDataBase.query(TABLE_NAME, null, null, null, null, null, null);
+    public ArrayList<Word> selectAllWhereKnown(boolean known) {
+        Cursor mCursor = mDataBase.query(TABLE_NAME, null, COLUMN_KNOWN + " = ?", new String[]{String.valueOf(known ? 1 : 0)}, null, null, null);
 
         ArrayList<Word> arr = new ArrayList<Word>();
         mCursor.moveToFirst();
@@ -156,7 +177,7 @@ public class DBWords {
         return false;
     }
 
-    private class OpenHelper extends SQLiteOpenHelper {
+    private static class OpenHelper extends SQLiteOpenHelper {
 
         OpenHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);

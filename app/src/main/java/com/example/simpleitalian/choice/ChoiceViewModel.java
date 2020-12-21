@@ -1,19 +1,31 @@
 package com.example.simpleitalian.choice;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import android.content.Context;
+
 import androidx.lifecycle.ViewModel;
 
+import com.example.simpleitalian.DBWords;
+import com.example.simpleitalian.Word;
+
+import java.util.ArrayList;
+
 public class ChoiceViewModel extends ViewModel {
+    private final DBWords DBConnector;
 
-    private MutableLiveData<String> mText;
-
-    public ChoiceViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is 2 fragment");
+    public ChoiceViewModel(Context context) {
+        DBConnector = new DBWords(context);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public ArrayList<Word> selectAllKnown() {
+        return DBConnector.selectAllWhereKnown(true);
+    }
+
+    public ArrayList<Word> selectAllNoKnown() {
+        return DBConnector.selectAllWhereKnown(false);
+    }
+
+    public void setKnown(Word word) {
+        word.setKnown(false);
+        DBConnector.update(word);
     }
 }

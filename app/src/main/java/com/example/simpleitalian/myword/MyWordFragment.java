@@ -2,40 +2,32 @@ package com.example.simpleitalian.myword;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.simpleitalian.DBWords;
-import com.example.simpleitalian.R;
 import com.example.simpleitalian.Word;
 import com.example.simpleitalian.databinding.FragmentMyWordBinding;
 
 import java.util.ArrayList;
 
 public class MyWordFragment extends Fragment {
-    private DBWords DBConnector;
     private FragmentMyWordBinding binding;
-    private MyWordViewModel myWordViewModel;
+    private MyWordViewModel viewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        DBConnector = new DBWords(getActivity());
-
-        myWordViewModel = new ViewModelProvider(this).get(MyWordViewModel.class);
+        //myWordViewModel = new ViewModelProvider(this).get(MyWordViewModel.class);
+        viewModel = new MyWordViewModel(getActivity());
+        ArrayList<Word> words = viewModel.selectAll();
 
         binding = FragmentMyWordBinding.inflate(inflater, container, false);
+
         View root = binding.getRoot();
 
         TableLayout table = binding.table;
@@ -62,7 +54,6 @@ public class MyWordFragment extends Fragment {
 
         table.addView(head);
 
-        ArrayList<Word> words = DBConnector.selectAllOrderBy("italian");
         TableRow body;
         TextView bodyColumn1, bodyColumn2, bodyColumn3;
         for (int i = 0; i < words.size(); i++) {
@@ -70,15 +61,12 @@ public class MyWordFragment extends Fragment {
 
             bodyColumn1 = new TextView(getContext());
             bodyColumn1.setText(words.get(i).getItalian());
-            //bodyColumn1.setTypeface(Typeface.DEFAULT_BOLD);
 
             bodyColumn2 = new TextView(getContext());
             bodyColumn2.setText(words.get(i).getTranscription());
-            //bodyColumn2.setTypeface(Typeface.DEFAULT_BOLD);
 
             bodyColumn3 = new TextView(getContext());
             bodyColumn3.setText(words.get(i).getRussian());
-            //bodyColumn3.setTypeface(Typeface.DEFAULT_BOLD);
 
             body.addView(bodyColumn1);
             body.addView(bodyColumn2);

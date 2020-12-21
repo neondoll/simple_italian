@@ -327,14 +327,6 @@
                 android:layout_marginBottom="25dp"
                 android:text="Закончить"
                 android:visibility="gone" />
-
-            <Button
-                android:id="@+id/button_restart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
-                android:text="Начать с начала"
-                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
