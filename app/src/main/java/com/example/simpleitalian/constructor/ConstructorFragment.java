@@ -21,8 +21,6 @@ import java.util.Random;
 public class ConstructorFragment extends Fragment {
     private ArrayList<Button> buttons;
     private ArrayList<Word> wordsConstructor;
-    private ArrayList<Word> wordsKnown;
-    private ArrayList<Word> wordsNoKnown;
     private Button buttonClear;
     private Button buttonContinue;
     private Button buttonFinish;
@@ -181,6 +179,7 @@ public class ConstructorFragment extends Fragment {
         editText.setText(text + button.getText());
     }
 
+    @SuppressLint("SetTextI18n")
     private void getViewWord() {
         textRussian.setText(currentWord.getRussian());
 
@@ -218,12 +217,12 @@ public class ConstructorFragment extends Fragment {
     }
 
     public void start() {
-        wordsKnown = viewModel.selectAllKnown();
-        wordsNoKnown = viewModel.selectAllNoKnown();
+        ArrayList<Word> wordsKnown = viewModel.selectAllKnown();
+        ArrayList<Word> wordsNoKnown = viewModel.selectAllNoKnown();
 
         ArrayList<Word> words = new ArrayList<>();
         if (wordsKnown.size() + wordsNoKnown.size() > countWordsConstructor) {
-            if (wordsKnown.size() > 4) {
+            if (wordsKnown.size() > 4 && wordsNoKnown.size() > 3) {
                 for (int i = 0; i < 4; ) {
                     int j = getRandInt(wordsKnown.size());
                     if (!words.contains(wordsKnown.get(j))) {
@@ -231,15 +230,32 @@ public class ConstructorFragment extends Fragment {
                         i++;
                     }
                 }
+                for (int i = 0; i < 3; ) {
+                    int j = getRandInt(wordsNoKnown.size());
+                    if (!words.contains(wordsNoKnown.get(j))) {
+                        words.add(wordsNoKnown.get(j));
+                        i++;
+                    }
+                }
             } else {
-                if (wordsKnown.size() > 0) words.addAll(wordsKnown);
-            }
-
-            for (int i = words.size(); i < countWordsConstructor; ) {
-                int j = getRandInt(wordsNoKnown.size());
-                if (!words.contains(wordsNoKnown.get(j))) {
-                    words.add(wordsNoKnown.get(j));
-                    i++;
+                if (wordsKnown.size() > 4) {
+                    if (wordsNoKnown.size() > 0) words.addAll(wordsNoKnown);
+                    for (int i = words.size(); i < countWordsConstructor; ) {
+                        int j = getRandInt(wordsKnown.size());
+                        if (!words.contains(wordsKnown.get(j))) {
+                            words.add(wordsKnown.get(j));
+                            i++;
+                        }
+                    }
+                } else {
+                    if (wordsKnown.size() > 0) words.addAll(wordsKnown);
+                    for (int i = words.size(); i < countWordsConstructor; ) {
+                        int j = getRandInt(wordsNoKnown.size());
+                        if (!words.contains(wordsNoKnown.get(j))) {
+                            words.add(wordsNoKnown.get(j));
+                            i++;
+                        }
+                    }
                 }
             }
         } else {

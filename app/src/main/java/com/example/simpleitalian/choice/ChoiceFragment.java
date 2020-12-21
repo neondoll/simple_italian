@@ -283,7 +283,7 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
 
         ArrayList<Word> words = new ArrayList<>();
         if (wordsKnown.size() + wordsNoKnown.size() > countWordsChoice) {
-            if (wordsKnown.size() > 4) {
+            if (wordsKnown.size() > 4 && wordsNoKnown.size() > 3) {
                 for (int i = 0; i < 4; ) {
                     int j = getRandInt(wordsKnown.size());
                     if (!words.contains(wordsKnown.get(j))) {
@@ -291,15 +291,32 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
                         i++;
                     }
                 }
+                for (int i = 0; i < 3; ) {
+                    int j = getRandInt(wordsNoKnown.size());
+                    if (!words.contains(wordsNoKnown.get(j))) {
+                        words.add(wordsNoKnown.get(j));
+                        i++;
+                    }
+                }
             } else {
-                if (wordsKnown.size() > 0) words.addAll(wordsKnown);
-            }
-
-            for (int i = words.size(); i < countWordsChoice; ) {
-                int j = getRandInt(wordsNoKnown.size());
-                if (!words.contains(wordsNoKnown.get(j))) {
-                    words.add(wordsNoKnown.get(j));
-                    i++;
+                if (wordsKnown.size() > 4) {
+                    if (wordsNoKnown.size() > 0) words.addAll(wordsNoKnown);
+                    for (int i = words.size(); i < countWordsChoice; ) {
+                        int j = getRandInt(wordsKnown.size());
+                        if (!words.contains(wordsKnown.get(j))) {
+                            words.add(wordsKnown.get(j));
+                            i++;
+                        }
+                    }
+                } else {
+                    if (wordsKnown.size() > 0) words.addAll(wordsKnown);
+                    for (int i = words.size(); i < countWordsChoice; ) {
+                        int j = getRandInt(wordsNoKnown.size());
+                        if (!words.contains(wordsNoKnown.get(j))) {
+                            words.add(wordsNoKnown.get(j));
+                            i++;
+                        }
+                    }
                 }
             }
         } else {

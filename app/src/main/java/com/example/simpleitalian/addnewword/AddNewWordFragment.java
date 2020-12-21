@@ -14,7 +14,6 @@ import com.example.simpleitalian.databinding.FragmentAddNewWordBinding;
 
 public class AddNewWordFragment extends Fragment {
     private AddNewWordViewModel viewModel;
-    private Button buttonAdd;
     private EditText textItalian;
     private EditText textRussian;
     private EditText textTranscription;
@@ -28,39 +27,11 @@ public class AddNewWordFragment extends Fragment {
 
         View root = binding.getRoot();
 
-        buttonAdd = binding.buttonAdd;
+        Button buttonAdd = binding.buttonAdd;
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*String message = "";
-                if (
-                        !textItalian.getText().toString().equals("") &&
-                                !textRussian.getText().toString().equals("") &&
-                                !textTranscription.getText().toString().equals("")
-                ) {
-                    if (!DBConnector.isInDatabase(textItalian.getText().toString(), textRussian.getText().toString())) {
-                        DBConnector.insert(
-                                textItalian.getText().toString(),
-                                textRussian.getText().toString(),
-                                textTranscription.getText().toString(),
-                                0,
-                                0
-                        );
-
-                        textItalian.setText("");
-                        textRussian.setText("");
-                        textTranscription.setText("");
-
-                        message = "Успешно!";
-                    } else message = "Такая запись уже есть!";
-                } else message = "Заполните все поля!";
-
-                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();*/
-                if (viewModel.addNewWord(
-                        textItalian.getText().toString(),
-                        textRussian.getText().toString(),
-                        textTranscription.getText().toString()
-                )) {
+                if (viewModel.addNewWord(textItalian.getText().toString(), textRussian.getText().toString(), textTranscription.getText().toString())) {
                     textItalian.setText("");
                     textRussian.setText("");
                     textTranscription.setText("");

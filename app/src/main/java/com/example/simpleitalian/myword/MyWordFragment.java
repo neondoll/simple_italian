@@ -19,11 +19,10 @@ import java.util.ArrayList;
 
 public class MyWordFragment extends Fragment {
     private FragmentMyWordBinding binding;
-    private MyWordViewModel viewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //myWordViewModel = new ViewModelProvider(this).get(MyWordViewModel.class);
-        viewModel = new MyWordViewModel(getActivity());
+        MyWordViewModel viewModel = new MyWordViewModel(getActivity());
         ArrayList<Word> words = viewModel.selectAll();
 
         binding = FragmentMyWordBinding.inflate(inflater, container, false);

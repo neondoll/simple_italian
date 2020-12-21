@@ -3,7 +3,6 @@ package com.example.simpleitalian;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -14,14 +13,12 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.simpleitalian.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private AppBarConfiguration mAppBarConfiguration;
-    private DBWords DBConnector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startDB(Context context) {
-        DBConnector = new DBWords(context);
+        DBWords DBConnector = new DBWords(context);
         if (!DBConnector.isInDatabase("la famiglia", "семья")) {
             DBConnector.insert("la famiglia", "семья", "[ла фамИлья]", R.drawable.image1, 0);
         }
