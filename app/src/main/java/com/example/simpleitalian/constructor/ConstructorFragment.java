@@ -41,7 +41,7 @@ public class ConstructorFragment extends Fragment {
     private int item;
     private final int green_a400 = Color.rgb(0, 230, 118);
     private final int purple_a200 = Color.rgb(224, 64, 251);
-    private final int red_500 = Color.rgb(244, 67, 54);
+    private final int red_400 = Color.rgb(239, 83, 80);
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //constructorViewModel = new ViewModelProvider(this).get(ConstructorViewModel.class);
@@ -151,7 +151,7 @@ public class ConstructorFragment extends Fragment {
                 } else {
                     textResult.setText("Ошибка! Правильный ответ: " + currentWord.getItalian());
                     textResult.setVisibility(View.VISIBLE);
-                    textResult.setBackgroundColor(red_500);
+                    textResult.setBackgroundColor(red_400);
                     textResult.setTextColor(Color.WHITE);
                     viewModel.setKnown(currentWord);
                 }

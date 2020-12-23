@@ -46,7 +46,7 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
     private int countWordsChoice = 7;
     private final int green_a400 = Color.rgb(0, 230, 118);
     private final int purple_a200 = Color.rgb(224, 64, 251);
-    private final int red_500 = Color.rgb(244, 67, 54);
+    private final int red_400 = Color.rgb(239, 83, 80);
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //choiceViewModel = new ViewModelProvider(this).get(ChoiceViewModel.class);
@@ -139,13 +139,13 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
                         break;
                     case 1:
                         check = false;
-                        buttonAnswer1.setBackgroundColor(red_500);
+                        buttonAnswer1.setBackgroundColor(red_400);
                         buttonAnswer2.setBackgroundColor(green_a400);
                         buttonAnswer3.setBackgroundColor(Color.WHITE);
                         break;
                     case 2:
                         check = false;
-                        buttonAnswer1.setBackgroundColor(red_500);
+                        buttonAnswer1.setBackgroundColor(red_400);
                         buttonAnswer2.setBackgroundColor(Color.WHITE);
                         buttonAnswer3.setBackgroundColor(green_a400);
                         break;
@@ -156,7 +156,7 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
                     case 0:
                         check = false;
                         buttonAnswer1.setBackgroundColor(green_a400);
-                        buttonAnswer2.setBackgroundColor(red_500);
+                        buttonAnswer2.setBackgroundColor(red_400);
                         buttonAnswer3.setBackgroundColor(Color.WHITE);
                         break;
                     case 1:
@@ -168,7 +168,7 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
                     case 2:
                         check = false;
                         buttonAnswer1.setBackgroundColor(Color.WHITE);
-                        buttonAnswer2.setBackgroundColor(red_500);
+                        buttonAnswer2.setBackgroundColor(red_400);
                         buttonAnswer3.setBackgroundColor(green_a400);
                         break;
                 }
@@ -179,13 +179,13 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
                         check = false;
                         buttonAnswer1.setBackgroundColor(green_a400);
                         buttonAnswer2.setBackgroundColor(Color.WHITE);
-                        buttonAnswer3.setBackgroundColor(red_500);
+                        buttonAnswer3.setBackgroundColor(red_400);
                         break;
                     case 1:
                         check = false;
                         buttonAnswer1.setBackgroundColor(Color.WHITE);
                         buttonAnswer2.setBackgroundColor(green_a400);
-                        buttonAnswer3.setBackgroundColor(red_500);
+                        buttonAnswer3.setBackgroundColor(red_400);
                         break;
                     case 2:
                         buttonAnswer1.setBackgroundColor(Color.WHITE);
