@@ -44,6 +44,9 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
     private int countCorrectAnswers;
     private int item;
     private int countWordsChoice = 7;
+    private final int green_a400 = Color.rgb(0, 230, 118);
+    private final int purple_a200 = Color.rgb(224, 64, 251);
+    private final int red_500 = Color.rgb(244, 67, 54);
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //choiceViewModel = new ViewModelProvider(this).get(ChoiceViewModel.class);
@@ -57,15 +60,15 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
         layoutProcess = binding.layoutProcess;
 
         buttonAnswer1 = binding.buttonAnswer1;
-        buttonAnswer1.setBackgroundColor(Color.MAGENTA);
+        buttonAnswer1.setBackgroundColor(purple_a200);
         buttonAnswer1.setOnClickListener(this);
 
         buttonAnswer2 = binding.buttonAnswer2;
-        buttonAnswer2.setBackgroundColor(Color.MAGENTA);
+        buttonAnswer2.setBackgroundColor(purple_a200);
         buttonAnswer2.setOnClickListener(this);
 
         buttonAnswer3 = binding.buttonAnswer3;
-        buttonAnswer3.setBackgroundColor(Color.MAGENTA);
+        buttonAnswer3.setBackgroundColor(purple_a200);
         buttonAnswer3.setOnClickListener(this);
 
         buttonContinue = binding.buttonContinue;
@@ -79,9 +82,9 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
 
                 getViewWord();
 
-                buttonAnswer1.setBackgroundColor(Color.MAGENTA);
-                buttonAnswer2.setBackgroundColor(Color.MAGENTA);
-                buttonAnswer3.setBackgroundColor(Color.MAGENTA);
+                buttonAnswer1.setBackgroundColor(purple_a200);
+                buttonAnswer2.setBackgroundColor(purple_a200);
+                buttonAnswer3.setBackgroundColor(purple_a200);
 
                 buttonContinue.setVisibility(View.INVISIBLE);
             }
@@ -129,22 +132,22 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
             case R.id.buttonAnswer1:
                 switch (correctAnswer) {
                     case 0:
-                        buttonAnswer1.setBackgroundColor(Color.rgb(4, 180, 4));
+                        buttonAnswer1.setBackgroundColor(green_a400);
                         buttonAnswer2.setBackgroundColor(Color.WHITE);
                         buttonAnswer3.setBackgroundColor(Color.WHITE);
                         countCorrectAnswers++;
                         break;
                     case 1:
                         check = false;
-                        buttonAnswer1.setBackgroundColor(Color.RED);
-                        buttonAnswer2.setBackgroundColor(Color.rgb(4, 180, 4));
+                        buttonAnswer1.setBackgroundColor(red_500);
+                        buttonAnswer2.setBackgroundColor(green_a400);
                         buttonAnswer3.setBackgroundColor(Color.WHITE);
                         break;
                     case 2:
                         check = false;
-                        buttonAnswer1.setBackgroundColor(Color.RED);
+                        buttonAnswer1.setBackgroundColor(red_500);
                         buttonAnswer2.setBackgroundColor(Color.WHITE);
-                        buttonAnswer3.setBackgroundColor(Color.rgb(4, 180, 4));
+                        buttonAnswer3.setBackgroundColor(green_a400);
                         break;
                 }
                 break;
@@ -152,21 +155,21 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
                 switch (correctAnswer) {
                     case 0:
                         check = false;
-                        buttonAnswer1.setBackgroundColor(Color.rgb(4, 180, 4));
-                        buttonAnswer2.setBackgroundColor(Color.RED);
+                        buttonAnswer1.setBackgroundColor(green_a400);
+                        buttonAnswer2.setBackgroundColor(red_500);
                         buttonAnswer3.setBackgroundColor(Color.WHITE);
                         break;
                     case 1:
                         buttonAnswer1.setBackgroundColor(Color.WHITE);
-                        buttonAnswer2.setBackgroundColor(Color.rgb(4, 180, 4));
+                        buttonAnswer2.setBackgroundColor(green_a400);
                         buttonAnswer3.setBackgroundColor(Color.WHITE);
                         countCorrectAnswers++;
                         break;
                     case 2:
                         check = false;
                         buttonAnswer1.setBackgroundColor(Color.WHITE);
-                        buttonAnswer2.setBackgroundColor(Color.RED);
-                        buttonAnswer3.setBackgroundColor(Color.rgb(4, 180, 4));
+                        buttonAnswer2.setBackgroundColor(red_500);
+                        buttonAnswer3.setBackgroundColor(green_a400);
                         break;
                 }
                 break;
@@ -174,20 +177,20 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
                 switch (correctAnswer) {
                     case 0:
                         check = false;
-                        buttonAnswer1.setBackgroundColor(Color.rgb(4, 180, 4));
+                        buttonAnswer1.setBackgroundColor(green_a400);
                         buttonAnswer2.setBackgroundColor(Color.WHITE);
-                        buttonAnswer3.setBackgroundColor(Color.RED);
+                        buttonAnswer3.setBackgroundColor(red_500);
                         break;
                     case 1:
                         check = false;
                         buttonAnswer1.setBackgroundColor(Color.WHITE);
-                        buttonAnswer2.setBackgroundColor(Color.rgb(4, 180, 4));
-                        buttonAnswer3.setBackgroundColor(Color.RED);
+                        buttonAnswer2.setBackgroundColor(green_a400);
+                        buttonAnswer3.setBackgroundColor(red_500);
                         break;
                     case 2:
                         buttonAnswer1.setBackgroundColor(Color.WHITE);
                         buttonAnswer2.setBackgroundColor(Color.WHITE);
-                        buttonAnswer3.setBackgroundColor(Color.rgb(4, 180, 4));
+                        buttonAnswer3.setBackgroundColor(green_a400);
                         countCorrectAnswers++;
                         break;
                 }
@@ -258,13 +261,13 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener {
                 break;
         }
 
-        buttonAnswer1.setBackgroundColor(Color.MAGENTA);
+        buttonAnswer1.setBackgroundColor(purple_a200);
         buttonAnswer1.setEnabled(true);
 
-        buttonAnswer2.setBackgroundColor(Color.MAGENTA);
+        buttonAnswer2.setBackgroundColor(purple_a200);
         buttonAnswer2.setEnabled(true);
 
-        buttonAnswer3.setBackgroundColor(Color.MAGENTA);
+        buttonAnswer3.setBackgroundColor(purple_a200);
         buttonAnswer3.setEnabled(true);
 
         buttonContinue.setVisibility(View.INVISIBLE);

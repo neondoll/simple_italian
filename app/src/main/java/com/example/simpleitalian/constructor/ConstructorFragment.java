@@ -39,6 +39,9 @@ public class ConstructorFragment extends Fragment {
     private int countCorrectAnswers;
     private int countWordsConstructor = 7;
     private int item;
+    private final int green_a400 = Color.rgb(0, 230, 118);
+    private final int purple_a200 = Color.rgb(224, 64, 251);
+    private final int red_500 = Color.rgb(244, 67, 54);
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //constructorViewModel = new ViewModelProvider(this).get(ConstructorViewModel.class);
@@ -85,6 +88,7 @@ public class ConstructorFragment extends Fragment {
         buttons.add(binding.button23);
         buttons.add(binding.button24);
         for (int i = 0; i < buttons.size(); i++) {
+            buttons.get(i).setBackgroundColor(purple_a200);
             int finalI = i;
             buttons.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -141,13 +145,13 @@ public class ConstructorFragment extends Fragment {
                 if (editText.getText().toString().equals(currentWord.getItalian())) {
                     textResult.setText("Успешно!");
                     textResult.setVisibility(View.VISIBLE);
-                    textResult.setBackgroundColor(Color.rgb(4, 180, 4));
+                    textResult.setBackgroundColor(green_a400);
                     textResult.setTextColor(Color.WHITE);
                     countCorrectAnswers++;
                 } else {
                     textResult.setText("Ошибка! Правильный ответ: " + currentWord.getItalian());
                     textResult.setVisibility(View.VISIBLE);
-                    textResult.setBackgroundColor(Color.RED);
+                    textResult.setBackgroundColor(red_500);
                     textResult.setTextColor(Color.WHITE);
                     viewModel.setKnown(currentWord);
                 }
